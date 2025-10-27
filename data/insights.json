@@ -1,0 +1,30 @@
+{
+  "last_updated": "2025-10-27 21:49 WIB",
+  "items": [
+    {
+      "title": "Social Media Sentiment Analysis",
+      "source": "Twitter API + AI Analysis",
+      "summary": "AI detected 15% increase in negative sentiment around banking services. Key concerns: mobile app performance and customer service wait times. Risk level: Medium."
+    },
+    {
+      "title": "Credit Risk Alert",
+      "source": "Internal Risk Management System",
+      "summary": "Credit risk score increased by 0.3 points due to rising default rates in retail sector. Recommendation: Tighten lending criteria for high-risk segments."
+    },
+    {
+      "title": "Fraud Pattern Detection",
+      "source": "AI Fraud Detection System",
+      "summary": "AI identified new fraud pattern: 23 suspicious transactions detected using similar IP addresses and device fingerprints. Immediate investigation recommended."
+    },
+    {
+      "title": "Compliance Monitoring Alert",
+      "source": "Regulatory Compliance System",
+      "summary": "New regulatory requirements detected. 3 transactions flagged for additional KYC verification. Compliance score: 98.5% (above threshold)."
+    },
+    {
+      "title": "Market Risk Assessment",
+      "source": "Market Intelligence Platform",
+      "summary": "Interest rate volatility increased market risk by 12%. Portfolio exposure to high-risk assets requires immediate review and potential rebalancing."
+    }
+  ]
+}
