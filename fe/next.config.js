@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove 'output: export' for Railway (use SSR)
+  // Use 'output: export' only for GitHub Pages
+  ...(process.env.RAILWAY_ENVIRONMENT ? {} : { output: 'export' }),
   trailingSlash: true,
-  basePath: '/BerInsight',
+  // basePath only for GitHub Pages
+  ...(process.env.RAILWAY_ENVIRONMENT ? {} : { basePath: '/BerInsight' }),
   images: {
     unoptimized: true
   },
