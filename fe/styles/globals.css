@@ -284,6 +284,23 @@ body {
   margin-bottom: 1.5rem;
 }
 
+/* 4-column grid for main analytics */
+.analytics-grid-four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1400px) {
+  .analytics-grid-four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .analytics-grid-four {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Charts */
 .charts-row {
   display: grid;
@@ -415,7 +432,8 @@ body {
 }
 
 /* Sentiment & Keywords Section - 2 Columns */
-.sentiment-keywords-section {
+/* Keywords & Ideas Section - 2 columns */
+.keywords-ideas-section {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
@@ -423,8 +441,14 @@ body {
   margin-bottom: 1.5rem;
 }
 
-.sentiment-card,
-.keywords-card {
+@media (max-width: 1024px) {
+  .keywords-ideas-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+.keywords-card,
+.ideas-card {
   background: white;
   border-radius: 16px;
   padding: 2rem;
@@ -433,8 +457,8 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.sentiment-card h3,
-.keywords-card h3 {
+.keywords-card h3,
+.ideas-card h3 {
   font-size: 1.5rem;
   font-weight: 600;
   color: #1e293b;
@@ -666,7 +690,7 @@ body {
     grid-template-columns: 1fr;
   }
   
-  .sentiment-keywords-section {
+  .keywords-ideas-section {
     grid-template-columns: 1fr;
   }
   

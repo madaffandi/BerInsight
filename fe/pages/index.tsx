@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, Component } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import { registerChartJS } from '../utils/chartSetup'
+import Sidebar from '../components/Sidebar'
 
 // Dynamically import charts with no SSR
 const Line = dynamic(() => import('react-chartjs-2').then(mod => mod.Line), { ssr: false })
@@ -445,7 +446,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <div className="dashboard">
+      <div style={{ display: 'flex' }}>
+        <Sidebar activePage="dashboard" />
+        
+      <div className="dashboard" style={{ marginLeft: '260px', width: 'calc(100% - 260px)' }}>
         <header className="dashboard-header">
           <h1>BerInsight Customer Knowledge Analytics</h1>
           <p>AI-Powered Customer Insights & Social Media Analytics</p>
@@ -592,9 +596,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Main Analytics Grid: Left (Social Media), Center (Products), Right (Channels) */}
-          <div className="analytics-grid">
-            {/* Left: Social Media Platforms */}
+          {/* Main Analytics Grid: 4 Columns - Social Media, Products, Channels, Sentiment */}
+          <div className="analytics-grid analytics-grid-four">
+            {/* 1. Social Media Platforms */}
             <div className="chart-container">
               <h3>Social Media Feedback</h3>
               <Bar data={socialMediaData} options={{
@@ -607,7 +611,7 @@ export default function Home() {
               }} />
             </div>
 
-            {/* Center: Product Categorization */}
+            {/* 2. Product Categorization */}
             <div className="chart-container">
               <h3>Product Analysis</h3>
               <Doughnut data={productData} options={{
@@ -619,7 +623,7 @@ export default function Home() {
               }} />
             </div>
 
-            {/* Right: Channel Distribution */}
+            {/* 3. Channel Distribution */}
             <div className="chart-container">
               <h3>Channel Distribution</h3>
               <Bar data={channelData} options={{
@@ -631,12 +635,9 @@ export default function Home() {
                 }
               }} />
             </div>
-          </div>
 
-          {/* Sentiment & Keywords Section - Merged into 2 columns */}
-          <div className="sentiment-keywords-section">
-            {/* Left: Sentiment Analysis */}
-            <div className="sentiment-card">
+            {/* 4. Sentiment Analysis */}
+            <div className="chart-container">
               <h3>Sentiment Analysis</h3>
               <div className="sentiment-grid">
                 <div className="sentiment-chart">
@@ -670,8 +671,11 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Right: Keywords Tag Cloud */}
+          {/* Keywords & Ideas Section - 2 columns */}
+          <div className="keywords-ideas-section">
+            {/* Left: Keywords Tag Cloud */}
             <div className="keywords-card">
               <h3>Most Mentioned Keywords</h3>
               <div className="wordcloud-container">
@@ -686,11 +690,10 @@ export default function Home() {
                 </WordCloudErrorBoundary>
               </div>
             </div>
-          </div>
 
-          {/* Highlighted Ideas Section */}
-          <div className="ideas-section">
-            <h3>Highlighted Ideas & Suggestions</h3>
+            {/* Right: Highlighted Ideas */}
+            <div className="ideas-card">
+              <h3>Highlighted Ideas & Suggestions</h3>
             <div className="ideas-grid">
               <div className="idea-card priority-high">
                 <div className="idea-header">
@@ -729,6 +732,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
 
           {/* Insights Section */}
@@ -753,6 +757,7 @@ export default function Home() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </>
   )
