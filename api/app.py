@@ -37,6 +37,11 @@ class Insight(BaseModel):
     urgency_score: Optional[int] = 50
     date: Optional[str] = None
     category: Optional[str] = None
+    rating: Optional[int] = None  # For CSV data - star rating
+    user: Optional[str] = None  # For CSV data - reviewer name
+    
+    class Config:
+        extra = "allow"  # Allow additional fields
 
 class InsightsResponse(BaseModel):
     last_updated: str
