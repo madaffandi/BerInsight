@@ -712,23 +712,23 @@ export default function Home() {
                   <span className="idea-badge medium">Medium Priority</span>
                   <span className="idea-product">Card</span>
                 </div>
-                <h4>Biometric Authentication</h4>
-                <p>Customers want fingerprint/face recognition for card transactions to enhance security.</p>
+                <h4>Free Delivery Card Provisioning</h4>
+                <p>Customers requesting free delivery service for card provisioning to reduce activation costs.</p>
                 <div className="idea-meta">
-                  <span>🔐 32 mentions</span>
-                  <span>⭐ 92% positive</span>
+                  <span>🚚 45 mentions</span>
+                  <span>⭐ 94% positive</span>
                 </div>
               </div>
               <div className="idea-card priority-high">
                 <div className="idea-header">
                   <span className="idea-badge">High Priority</span>
-                  <span className="idea-product">Qlola</span>
+                  <span className="idea-product">BRImo</span>
                 </div>
-                <h4>Merchant Cashback Program</h4>
-                <p>Request for enhanced cashback rewards at partner merchants to increase usage.</p>
+                <h4>Minimum Withdrawal 50K</h4>
+                <p>Users requesting lower minimum withdrawal from 100K to 50K Rupiah for better flexibility and accessibility.</p>
                 <div className="idea-meta">
-                  <span>💰 38 mentions</span>
-                  <span>⭐ 95% positive</span>
+                  <span>💵 62 mentions</span>
+                  <span>⭐ 96% positive</span>
                 </div>
               </div>
             </div>
