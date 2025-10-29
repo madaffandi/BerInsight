@@ -1,0 +1,31 @@
+<svg width="180" height="50" viewBox="0 0 180 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#9333ea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Lightbulb Icon -->
+  <g transform="translate(92, 8)">
+    <!-- Bulb -->
+    <path d="M 6 0 C 2.686 0 0 2.686 0 6 C 0 8.5 1.5 10.5 3 11.5 L 3 14 C 3 14.55 3.45 15 4 15 L 8 15 C 8.55 15 9 14.55 9 14 L 9 11.5 C 10.5 10.5 12 8.5 12 6 C 12 2.686 9.314 0 6 0 Z" 
+          stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+    <!-- Base -->
+    <rect x="3.5" y="15" width="5" height="2" rx="0.5" stroke="#f59e0b" stroke-width="1.5" fill="none"/>
+    <!-- Light rays -->
+    <path d="M 6 -3 L 6 -5" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 13 6 L 15 6" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M -3 6 L -1 6" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 10.5 -0.5 L 12 -2" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M 1.5 -0.5 L 0 -2" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="0" y="32" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="url(#textGradient)">
+    BerInsight
+  </text>
+</svg>
+
