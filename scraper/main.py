@@ -1,14 +1,9 @@
 import os
 import json
 import logging
-import time
+import random
 from datetime import datetime, timezone, timedelta
 from typing import List, Dict, Any
-import requests
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -27,213 +22,271 @@ def get_jakarta_time() -> str:
     now = datetime.now(jakarta_tz)
     return now.strftime('%Y-%m-%d %H:%M WIB')
 
-def fetch_sources() -> List[Dict[str, Any]]:
+def get_random_date(days_back=30) -> str:
+    """Generate random date within last N days"""
+    jakarta_tz = timezone(timedelta(hours=7))
+    now = datetime.now(jakarta_tz)
+    random_days = random.randint(0, days_back)
+    date = now - timedelta(days=random_days)
+    return date.strftime('%Y-%m-%d')
+
+def generate_banking_data() -> List[Dict[str, Any]]:
     """
-    Fetch data from various sources.
-    This is a stub implementation - replace with actual data sources.
+    Generate comprehensive customer knowledge analytics data
+    Including: complaints, suggestions, and insights from various channels
     """
-    logger.info("Fetching data from sources...")
+    logger.info("Generating customer knowledge analytics data...")
     
-    # Simulate API calls with retries
-    insights = []
+    data = []
     
-    # Banking Intelligence Data Sources - replace with real APIs
-    sources = [
+    # BRI Products
+    products = [
+        "BRImo",
+        "Card",
+        "Qlola",
+        "Loan",
+        "Simpedes",
+        "Britama",
+        "Deposito"
+    ]
+    
+    # BRI Channels
+    channels = [
+        "BRImo",
+        "BRILink",
+        "CERIA",
+        "Qlola",
+        "MMS",
+        "Sabrina"
+    ]
+    
+    # Social Media Platforms
+    social_media = [
+        "YouTube",
+        "Instagram", 
+        "Twitter",
+        "Facebook",
+        "Apple AppStore",
+        "Google Playstore"
+    ]
+    
+    features = {
+        "BRImo": ["Login", "Transfer", "Bill Payment", "QR Payment", "Account Info", "Virtual Account"],
+        "Card": ["Payment", "Limit Check", "Reward Points", "Statement", "Activation"],
+        "Qlola": ["Merchant Payment", "Top Up", "Transaction History", "Cashback"],
+        "Loan": ["Application", "Disbursement", "Payment", "Status Check", "Restructuring"],
+        "Simpedes": ["Account Opening", "Savings", "Withdrawal", "Interest"],
+        "Britama": ["Account Management", "Transfer", "Monthly Fee", "Benefits"],
+        "Deposito": ["Opening", "Renewal", "Interest Rate", "Withdrawal"]
+    }
+    
+    # Complaint Types
+    complaint_types = [
+        {"category": "Performance Issue", "urgency_base": 70},
+        {"category": "Bug/Error", "urgency_base": 85},
+        {"category": "Security Concern", "urgency_base": 95},
+        {"category": "UI/UX Problem", "urgency_base": 50},
+        {"category": "Service Unavailable", "urgency_base": 90},
+        {"category": "Transaction Failed", "urgency_base": 95},
+        {"category": "Poor Customer Service", "urgency_base": 60},
+        {"category": "Unclear Information", "urgency_base": 40}
+    ]
+    
+    complaint_templates = [
+        "Aplikasi {product} sering crash saat menggunakan fitur {feature}",
+        "Error 'Connection Timeout' terus muncul di {product} - {feature}",
+        "Transaksi {feature} di {product} gagal tapi saldo terpotong",
+        "Fitur {feature} tidak berfungsi dengan baik di {product}",
+        "{product} sangat lambat ketika akses {feature}",
+        "Tidak bisa login ke {product} sejak update terakhir",
+        "Data di {feature} tidak akurat di {product}",
+        "Customer service di {channel} tidak responsif untuk masalah {product}",
+        "{feature} di {product} sering error saat peak hours",
+        "Proses {feature} terlalu lama di {product}"
+    ]
+    
+    # Generate 200 Complaints
+    for _ in range(200):
+        product = random.choice(products)
+        channel = random.choice(channels)
+        platform = random.choice(social_media)
+        feature = random.choice(features.get(product, ["General"]))
+        complaint_type = random.choice(complaint_types)
+        sentiment = random.choices(
+            ["negative", "neutral"],
+            weights=[0.8, 0.2]
+        )[0]
+        
+        title = random.choice(complaint_templates).format(
+            product=product,
+            feature=feature,
+            channel=channel
+        )
+        
+        data.append({
+            "title": title,
+            "source": platform,
+            "summary": f"Customer reported issue with {feature} in {product} via {channel}. Category: {complaint_type['category']}. Requires immediate attention from product team.",
+            "type": "complaint",
+            "product": product,
+            "feature": feature,
+            "channel": channel,
+            "social_media": platform,
+            "category": complaint_type["category"],
+            "sentiment": sentiment,
+            "urgency_score": min(100, complaint_type["urgency_base"] + random.randint(-10, 10)),
+            "date": get_random_date(30)
+        })
+    
+    # Suggestion Types
+    suggestion_types = [
+        {"category": "Feature Request", "priority_base": 70},
+        {"category": "UX Improvement", "priority_base": 60},
+        {"category": "New Product Idea", "priority_base": 50},
+        {"category": "Integration Request", "priority_base": 65},
+        {"category": "Performance Enhancement", "priority_base": 75},
+        {"category": "Security Enhancement", "priority_base": 90},
+        {"category": "Accessibility", "priority_base": 55}
+    ]
+    
+    suggestion_templates = [
+        "Tambahkan fitur {feature} di {product} untuk kemudahan transaksi",
+        "Integrasikan {product} dengan e-wallet populer",
+        "Perbaiki UI {feature} di {product} agar lebih user-friendly",
+        "Tambahkan notifikasi real-time untuk {feature}",
+        "Sediakan dark mode untuk {product}",
+        "Tingkatkan keamanan {feature} dengan biometric authentication",
+        "Buat tutorial interaktif untuk fitur {feature}",
+        "Tambahkan widget {product} di home screen",
+        "Permudah proses {feature} di {channel}",
+        "Sinkronisasi {product} dengan {channel} lebih cepat"
+    ]
+    
+    # Generate 100 Suggestions
+    for _ in range(100):
+        product = random.choice(products)
+        channel = random.choice(channels)
+        platform = random.choice(social_media)
+        feature = random.choice(features.get(product, ["General"]))
+        suggestion_type = random.choice(suggestion_types)
+        sentiment = random.choices(
+            ["positive", "neutral"],
+            weights=[0.7, 0.3]
+        )[0]
+        
+        title = random.choice(suggestion_templates).format(
+            product=product,
+            feature=feature,
+            channel=channel
+        )
+        
+        data.append({
+            "title": title,
+            "source": platform,
+            "summary": f"Customer suggestion for {feature} improvement in {product} via {channel}. Type: {suggestion_type['category']}. Potential high impact on user satisfaction.",
+            "type": "suggestion",
+            "product": product,
+            "feature": feature,
+            "channel": channel,
+            "social_media": platform,
+            "category": suggestion_type["category"],
+            "sentiment": sentiment,
+            "urgency_score": min(100, suggestion_type["priority_base"] + random.randint(-15, 15)),
+            "date": get_random_date(30)
+        })
+    
+    # Generate 20 General Insights (from AI analysis)
+    insight_templates = [
         {
-            "name": "Social Media Intelligence",
-            "url": "https://api.twitter.com/v2/tweets/search",
-            "mock_data": {
-                "title": "Social Media Sentiment Analysis",
-                "source": "Twitter API + AI Analysis",
-                "summary": "AI detected 15% increase in negative sentiment around banking services. Key concerns: mobile app performance and customer service wait times. Risk level: Medium."
-            }
+            "title": "Social Media Sentiment Trending Positive",
+            "source": "AI Social Listening",
+            "summary": "AI detected 15% increase in positive sentiment around {product} on {platform}. Main appreciation: {feature} improvements.",
+            "category": "Social Media Intelligence"
         },
         {
-            "name": "Internal Risk Assessment",
-            "url": "https://internal-api.bank.com/risk-assessment",
-            "mock_data": {
-                "title": "Credit Risk Alert",
-                "source": "Internal Risk Management System",
-                "summary": "Credit risk score increased by 0.3 points due to rising default rates in retail sector. Recommendation: Tighten lending criteria for high-risk segments."
-            }
+            "title": "Customer Experience Excellence",
+            "source": "AI Analytics Engine",
+            "summary": "Customer satisfaction score for {product} via {channel} improved by 12%. Key driver: {feature} enhancement.",
+            "category": "Customer Analytics"
         },
         {
-            "name": "Fraud Detection AI",
-            "url": "https://ai-api.bank.com/fraud-detection",
-            "mock_data": {
-                "title": "Fraud Pattern Detection",
-                "source": "AI Fraud Detection System",
-                "summary": "AI identified new fraud pattern: 23 suspicious transactions detected using similar IP addresses and device fingerprints. Immediate investigation recommended."
-            }
+            "title": "Product Innovation Opportunity",
+            "source": "Market Intelligence Platform",
+            "summary": "Market analysis shows high demand for {feature} in {product}. Recommendation: prioritize development.",
+            "category": "Market Intelligence"
         },
         {
-            "name": "Regulatory Compliance",
-            "url": "https://compliance-api.bank.com/regulatory",
-            "mock_data": {
-                "title": "Compliance Monitoring Alert",
-                "source": "Regulatory Compliance System",
-                "summary": "New regulatory requirements detected. 3 transactions flagged for additional KYC verification. Compliance score: 98.5% (above threshold)."
-            }
+            "title": "Channel Performance Insight",
+            "source": "Analytics Platform",
+            "summary": "{channel} showing 20% increase in {product} adoption. {feature} is most used functionality.",
+            "category": "Channel Analytics"
         },
         {
-            "name": "Market Intelligence",
-            "url": "https://market-api.bank.com/intelligence",
-            "mock_data": {
-                "title": "Market Risk Assessment",
-                "source": "Market Intelligence Platform",
-                "summary": "Interest rate volatility increased market risk by 12%. Portfolio exposure to high-risk assets requires immediate review and potential rebalancing."
-            }
+            "title": "Customer Journey Optimization",
+            "source": "UX Analytics",
+            "summary": "Users accessing {product} via {channel} show 30% faster completion for {feature}. Best practice identified.",
+            "category": "UX Intelligence"
         }
     ]
     
-    for i, source in enumerate(sources):
-        try:
-            # Simulate API call with timeout and retry
-            response = fetch_with_retry(source["url"], timeout=5, max_retries=2, source_index=i)
-            
-            if response and response.get("success"):
-                insights.append(response.get("data", source["mock_data"]))
-            else:
-                # Use mock data if API fails
-                logger.warning(f"API call failed for {source['name']}, using mock data")
-                insights.append(source["mock_data"])
-                
-        except Exception as e:
-            logger.error(f"Error fetching from {source['name']}: {e}")
-            # Use mock data as fallback
-            insights.append(source["mock_data"])
+    for _ in range(50):
+        product = random.choice(products)
+        channel = random.choice(channels)
+        platform = random.choice(social_media)
+        feature = random.choice(features.get(product, ["General"]))
+        template = random.choice(insight_templates)
+        sentiment = random.choices(
+            ["positive", "neutral", "negative"],
+            weights=[0.5, 0.3, 0.2]
+        )[0]
+        
+        data.append({
+            "title": template["title"],
+            "source": template["source"],
+            "summary": template["summary"].format(product=product, feature=feature, channel=channel, platform=platform),
+            "type": "insight",
+            "product": product,
+            "feature": feature,
+            "channel": channel,
+            "social_media": platform,
+            "category": template["category"],
+            "sentiment": sentiment,
+            "urgency_score": random.randint(40, 90),
+            "date": get_random_date(15)
+        })
     
-    logger.info(f"Successfully fetched {len(insights)} insights")
-    return insights
-
-def fetch_with_retry(url: str, timeout: int = 5, max_retries: int = 3, source_index: int = 0) -> Dict[str, Any]:
-    """
-    Fetch data with retry logic and timeout.
-    This is a stub - replace with actual API calls.
-    """
-    for attempt in range(max_retries):
-        try:
-            logger.info(f"Attempting to fetch {url} (attempt {attempt + 1}/{max_retries})")
-            
-            # Simulate API call
-            time.sleep(0.5)  # Simulate network delay
-            
-            # Mock successful response with banking data
-            banking_insights = [
-                {
-                    "title": "Social Media Sentiment Analysis",
-                    "source": "Twitter API + AI Analysis",
-                    "summary": "AI detected 15% increase in negative sentiment around banking services. Key concerns: mobile app performance and customer service wait times. Risk level: Medium."
-                },
-                {
-                    "title": "Credit Risk Alert",
-                    "source": "Internal Risk Management System",
-                    "summary": "Credit risk score increased by 0.3 points due to rising default rates in retail sector. Recommendation: Tighten lending criteria for high-risk segments."
-                },
-                {
-                    "title": "Fraud Pattern Detection",
-                    "source": "AI Fraud Detection System",
-                    "summary": "AI identified new fraud pattern: 23 suspicious transactions detected using similar IP addresses and device fingerprints. Immediate investigation recommended."
-                },
-                {
-                    "title": "Compliance Monitoring Alert",
-                    "source": "Regulatory Compliance System",
-                    "summary": "New regulatory requirements detected. 3 transactions flagged for additional KYC verification. Compliance score: 98.5% (above threshold)."
-                },
-                {
-                    "title": "Market Risk Assessment",
-                    "source": "Market Intelligence Platform",
-                    "summary": "Interest rate volatility increased market risk by 12%. Portfolio exposure to high-risk assets requires immediate review and potential rebalancing."
-                }
-            ]
-            
-            return {
-                "success": True,
-                "data": banking_insights[source_index % len(banking_insights)]
-            }
-            
-        except requests.exceptions.Timeout:
-            logger.warning(f"Timeout on attempt {attempt + 1} for {url}")
-            if attempt < max_retries - 1:
-                time.sleep(1 * (attempt + 1))  # Exponential backoff
-        except requests.exceptions.RequestException as e:
-            logger.warning(f"Request error on attempt {attempt + 1} for {url}: {e}")
-            if attempt < max_retries - 1:
-                time.sleep(1 * (attempt + 1))
-        except Exception as e:
-            logger.error(f"Unexpected error on attempt {attempt + 1} for {url}: {e}")
-            break
-    
-    return {"success": False, "error": "All retry attempts failed"}
-
-def save_insights(insights: List[Dict[str, Any]]) -> bool:
-    """Save insights to persistent storage"""
-    try:
-        # Ensure data directory exists
-        os.makedirs(os.path.dirname(DATA_PATH), exist_ok=True)
-        
-        # Prepare data structure
-        data = {
-            "last_updated": get_jakarta_time(),
-            "items": insights
-        }
-        
-        # Write to file atomically
-        temp_path = f"{DATA_PATH}.tmp"
-        with open(temp_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-        
-        # Atomic move
-        os.rename(temp_path, DATA_PATH)
-        
-        logger.info(f"Successfully saved insights to {DATA_PATH}")
-        logger.info(f"Saved {len(insights)} insights")
-        return True
-        
-    except Exception as e:
-        logger.error(f"Error saving insights to {DATA_PATH}: {e}")
-        return False
+    logger.info(f"Generated {len(data)} data points (50 complaints, 30 suggestions, 20 insights)")
+    return data
 
 def main():
-    """Main scraper function with retry wrapper"""
-    logger.info("Starting BRInsight scraper...")
+    """Main scraper function"""
+    logger.info("Starting BerInsight scraper...")
     logger.info(f"Data path: {DATA_PATH}")
     logger.info(f"Timezone: {TZ}")
     
-    max_attempts = 3
-    for attempt in range(max_attempts):
-        try:
-            logger.info(f"Scraper attempt {attempt + 1}/{max_attempts}")
-            
-            # Fetch insights from sources
-            insights = fetch_sources()
-            
-            if not insights:
-                logger.warning("No insights fetched, using fallback data")
-                insights = [
-                    {
-                        "title": "System Status Update",
-                        "source": "BRInsight System",
-                        "summary": "Scraper is running but no external data sources are available. This is a fallback insight."
-                    }
-                ]
-            
-            # Save insights
-            if save_insights(insights):
-                logger.info("Scraper completed successfully")
-                return True
-            else:
-                logger.error("Failed to save insights")
-                
-        except Exception as e:
-            logger.error(f"Scraper attempt {attempt + 1} failed: {e}")
-            if attempt < max_attempts - 1:
-                logger.info(f"Retrying in 5 seconds...")
-                time.sleep(5)
-    
-    logger.error("All scraper attempts failed")
-    return False
+    try:
+        # Generate banking intelligence data
+        insights_items = generate_banking_data()
+        
+        # Prepare output data
+        insights_data = {
+            "last_updated": get_jakarta_time(),
+            "items": insights_items
+        }
+        
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(DATA_PATH) if os.path.dirname(DATA_PATH) else '.', exist_ok=True)
+        
+        # Save to file
+        with open(DATA_PATH, "w", encoding='utf-8') as f:
+            json.dump(insights_data, f, indent=2, ensure_ascii=False)
+        
+        logger.info(f"Successfully saved {len(insights_items)} items to {DATA_PATH}")
+        logger.info("Scraper completed successfully")
+        
+    except Exception as e:
+        logger.error(f"Error in scraper: {e}")
+        raise
 
 if __name__ == "__main__":
-    success = main()
-    exit(0 if success else 1)
+    main()

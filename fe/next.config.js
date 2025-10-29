@@ -1,11 +1,13 @@
 /** @type {import('next').NextConfig} */
+const isDev = process.env.NODE_ENV === 'development'
+const isGitHubPages = process.env.GITHUB_PAGES === 'true'
+
 const nextConfig = {
-  // Remove 'output: export' for Railway (use SSR)
-  // Use 'output: export' only for GitHub Pages
-  ...(process.env.RAILWAY_ENVIRONMENT ? {} : { output: 'export' }),
+  // Only use static export for GitHub Pages build
+  ...(isGitHubPages ? { output: 'export' } : {}),
   trailingSlash: true,
-  // basePath only for GitHub Pages
-  ...(process.env.RAILWAY_ENVIRONMENT ? {} : { basePath: '/BerInsight' }),
+  // basePath only for GitHub Pages deployment
+  ...(isGitHubPages ? { basePath: '/BerInsight' } : {}),
   images: {
     unoptimized: true
   },

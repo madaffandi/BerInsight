@@ -1,11 +1,11 @@
-# BRInsight - Banking Intelligence Dashboard
+# BerInsight - Customer Knowledge Analytics Dashboard
 
-A modern, AI-powered banking intelligence platform for social media monitoring, risk assessment, and fraud detection. Built for hackathon demo with React/Next.js frontend, FastAPI backend, and Python data scraper.
+A modern, AI-powered customer knowledge analytics platform for social media monitoring, customer feedback analysis, and product insights. Built for BRI with React/Next.js frontend, FastAPI backend, and Python data scraper.
 
 ## 🏗️ Architecture
 
 ```
-brinsight/
+berinsight/
 ├── fe/                 # Next.js Frontend (Static Export)
 ├── api/                # FastAPI Backend
 ├── scraper/            # Python Data Scraper
@@ -23,7 +23,7 @@ brinsight/
 ### 1. Clone and Setup
 ```bash
 git clone <your-repo-url>
-cd brinsight
+cd berinsight
 cp env.example .env
 ```
 
