@@ -318,37 +318,31 @@ Step 4: Frontend Display
                       5. CURRENT DATA STATISTICS
 ================================================================================
 
-Total Insights: 5,598 reviews (5,078 real + 520 diverse dummy data)
+Total Insights: 10,932 reviews (5,078 real + 5,854 balanced dummy data)
 
 ┌─ By Sentiment ────────────────────────────────────────────────────────────┐
-│ • Positive:    3,618 reviews (64.6%)                                      │
-│ • Negative:    1,677 reviews (30.0%)                                      │
-│ • Neutral:       303 reviews (5.4%)                                       │
+│ • Positive:    6,273 reviews (57.4%)                                      │
+│ • Negative:    3,441 reviews (31.5%)                                      │
+│ • Neutral:     1,218 reviews (11.1%)                                      │
 └───────────────────────────────────────────────────────────────────────────┘
 
-┌─ By Type ─────────────────────────────────────────────────────────────────┐
-│ • Insights:    3,335 general observations (59.6%)                         │
-│ • Complaints:  1,999 issues reported (35.7%)                              │
-│ • Suggestions:   264 improvement ideas (4.7%)                             │
+┌─ By Source Platform (Social Media) - BALANCED ────────────────────────────┐
+│ • Google Playstore: 4,932 reviews (45.1%) ⬇️ from 88.1%                 │
+│ • Twitter:          1,200 reviews (11.0%) ⬆️ from 2.0%                   │
+│ • Facebook:         1,200 reviews (11.0%) ⬆️ from 2.1%                   │
+│ • Instagram:        1,200 reviews (11.0%) ⬆️ from 2.0%                   │
+│ • YouTube:          1,200 reviews (11.0%) ⬆️ from 2.3%                   │
+│ • Apple AppStore:   1,200 reviews (11.0%) ⬆️ from 3.6%                   │
 └───────────────────────────────────────────────────────────────────────────┘
 
-┌─ By Source Platform (Social Media) ───────────────────────────────────────┐
-│ • Google Playstore: 4,932 reviews (88.1%)                                │
-│ • Apple AppStore:     199 reviews (3.6%)                                 │
-│ • YouTube:            127 reviews (2.3%)                                 │
-│ • Facebook:           119 reviews (2.1%)                                 │
-│ • Instagram:          111 reviews (2.0%)                                 │
-│ • Twitter:            110 reviews (2.0%)                                 │
-└───────────────────────────────────────────────────────────────────────────┘
-
-┌─ By Channel ──────────────────────────────────────────────────────────────┐
-│ • General:      3,953 (70.6%)                                             │
-│ • BRImo:        1,064 (19.0%)                                             │
-│ • Call Center:    150 (2.7%)                                              │
-│ • Website:        125 (2.2%)                                              │
-│ • ATM:            113 (2.0%)                                              │
-│ • BRILink:        107 (1.9%)                                              │
-│ • CERIA:           86 (1.5%)                                              │
+┌─ By Channel - IMPROVED DISTRIBUTION ──────────────────────────────────────┐
+│ • General:      3,953 (36.2%)                                             │
+│ • BRImo:        1,974 (18.1%)                                             │
+│ • Call Center:  1,023 (9.4%)                                              │
+│ • Website:      1,017 (9.3%)                                              │
+│ • BRILink:      1,001 (9.2%)                                              │
+│ • ATM:            994 (9.1%)                                              │
+│ • CERIA:          970 (8.9%)                                              │
 └───────────────────────────────────────────────────────────────────────────┘
 
 ┌─ Date Range ──────────────────────────────────────────────────────────────┐
