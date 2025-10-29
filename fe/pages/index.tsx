@@ -449,7 +449,7 @@ export default function Home() {
       <div style={{ display: 'flex' }}>
         <Sidebar activePage="dashboard" />
         
-      <div className="dashboard" style={{ marginLeft: '260px', width: 'calc(100% - 260px)' }}>
+      <div className="dashboard" style={{ flex: 1 }}>
         <header className="dashboard-header">
           <h1>BerInsight Customer Knowledge Analytics</h1>
           <p>AI-Powered Customer Insights & Social Media Analytics</p>

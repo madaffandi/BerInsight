@@ -19,9 +19,17 @@ interface Insight {
 
 interface PrioritizedInsight extends Insight {
   priority: 'high' | 'medium' | 'low'
+  expertScore: number
   recommendedTeam: string
   actionItems: string[]
   impact: string
+  scoreBreakdown: {
+    sentiment: number
+    urgency: number
+    engagement: number
+    recency: number
+    impact: number
+  }
 }
 
 export default function CallToAction() {
@@ -60,24 +68,83 @@ export default function CallToAction() {
     }
   }
 
-  // Prioritize and assign insights
+  // Expert Choice Algorithm - Multi-Criteria Decision Analysis (MCDA)
+  const calculateExpertChoiceScore = (insight: Insight): { score: number, breakdown: any } => {
+    const content = `${insight.title} ${insight.summary}`.toLowerCase()
+    const sentiment = insight.sentiment?.toLowerCase() || 'neutral'
+    
+    // Criteria Weights (Total = 100%)
+    const WEIGHTS = {
+      sentiment: 0.30,      // 30% - Sentiment analysis
+      urgency: 0.25,        // 25% - Urgency keywords
+      engagement: 0.20,     // 20% - Content richness/mentions
+      recency: 0.15,        // 15% - Time relevance
+      impact: 0.10          // 10% - Potential business impact
+    }
+    
+    // 1. Sentiment Score (0-100)
+    let sentimentScore = 50
+    if (sentiment === 'negative') sentimentScore = 90
+    else if (sentiment === 'neutral') sentimentScore = 50
+    else if (sentiment === 'positive') sentimentScore = 20
+    
+    // 2. Urgency Score (0-100)
+    const urgencyKeywords = ['urgent', 'critical', 'issue', 'problem', 'error', 'failed', 'broken', 'crash', 'bug', 'security']
+    const urgencyMatches = urgencyKeywords.filter(kw => content.includes(kw)).length
+    const urgencyScore = Math.min(urgencyMatches * 20, 100)
+    
+    // 3. Engagement Score (0-100) - Based on content length and richness
+    const wordCount = content.split(' ').length
+    const engagementScore = Math.min((wordCount / 50) * 100, 100)
+    
+    // 4. Recency Score (0-100)
+    const publishedDate = new Date(insight.published_date)
+    const now = new Date()
+    const daysDiff = Math.floor((now.getTime() - publishedDate.getTime()) / (1000 * 60 * 60 * 24))
+    const recencyScore = Math.max(100 - (daysDiff * 2), 0) // Decreases 2 points per day
+    
+    // 5. Impact Score (0-100)
+    const impactKeywords = ['system', 'security', 'data', 'customer', 'revenue', 'user', 'feature', 'integration', 'performance']
+    const impactMatches = impactKeywords.filter(kw => content.includes(kw)).length
+    const impactScore = Math.min(impactMatches * 15, 100)
+    
+    // Weighted Sum (Expert Choice Formula)
+    const totalScore = (
+      sentimentScore * WEIGHTS.sentiment +
+      urgencyScore * WEIGHTS.urgency +
+      engagementScore * WEIGHTS.engagement +
+      recencyScore * WEIGHTS.recency +
+      impactScore * WEIGHTS.impact
+    )
+    
+    return {
+      score: Math.round(totalScore),
+      breakdown: {
+        sentiment: Math.round(sentimentScore),
+        urgency: Math.round(urgencyScore),
+        engagement: Math.round(engagementScore),
+        recency: Math.round(recencyScore),
+        impact: Math.round(impactScore)
+      }
+    }
+  }
+
+  // Prioritize and assign insights using Expert Choice
   const prioritizedInsights = useMemo<PrioritizedInsight[]>(() => {
     return insights.map((insight) => {
-      // Determine priority based on sentiment and keywords
-      let priority: 'high' | 'medium' | 'low' = 'medium'
-      const sentiment = insight.sentiment?.toLowerCase() || ''
       const content = `${insight.title} ${insight.summary}`.toLowerCase()
+      const sentiment = insight.sentiment?.toLowerCase() || ''
       
-      // High priority: negative sentiment or urgent keywords
-      if (sentiment === 'negative' || 
-          content.includes('urgent') || 
-          content.includes('critical') || 
-          content.includes('issue') ||
-          content.includes('problem')) {
+      // Calculate Expert Choice Score
+      const { score: expertScore, breakdown: scoreBreakdown } = calculateExpertChoiceScore(insight)
+      
+      // Determine priority based on Expert Choice score
+      let priority: 'high' | 'medium' | 'low' = 'medium'
+      if (expertScore >= 70) {
         priority = 'high'
-      }
-      // Low priority: positive sentiment with no urgent keywords
-      else if (sentiment === 'positive') {
+      } else if (expertScore >= 40) {
+        priority = 'medium'
+      } else {
         priority = 'low'
       }
 
@@ -129,14 +196,15 @@ export default function CallToAction() {
       return {
         ...insight,
         priority,
+        expertScore,
+        scoreBreakdown,
         recommendedTeam,
         actionItems,
         impact
       }
     }).sort((a, b) => {
-      // Sort by priority: high > medium > low
-      const priorityOrder = { high: 0, medium: 1, low: 2 }
-      return priorityOrder[a.priority] - priorityOrder[b.priority]
+      // Sort by Expert Choice score (highest first)
+      return b.expertScore - a.expertScore
     })
   }, [insights])
 
@@ -192,7 +260,7 @@ export default function CallToAction() {
       <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f9fa' }}>
         <Sidebar activePage="call-to-action" />
         
-        <div style={{ marginLeft: '260px', flex: 1, padding: '32px' }}>
+        <div style={{ flex: 1, padding: '32px' }}>
           {/* Header */}
           <div style={{ marginBottom: '32px' }}>
             <h1 style={{ 
@@ -343,7 +411,7 @@ export default function CallToAction() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '16px' }}>
                     <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px', flexWrap: 'wrap' }}>
                         <span style={{
                           padding: '4px 12px',
                           borderRadius: '12px',
@@ -354,6 +422,18 @@ export default function CallToAction() {
                           textTransform: 'uppercase'
                         }}>
                           {insight.priority} Priority
+                        </span>
+                        <span style={{
+                          padding: '4px 12px',
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          fontWeight: '700',
+                          color: '#fff',
+                          background: `linear-gradient(135deg, ${insight.expertScore >= 70 ? '#ef4444' : insight.expertScore >= 40 ? '#f59e0b' : '#10b981'} 0%, ${insight.expertScore >= 70 ? '#dc2626' : insight.expertScore >= 40 ? '#d97706' : '#059669'} 100%)`,
+                          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                        }}
+                        title="Expert Choice Score - Multi-Criteria Decision Analysis">
+                          📊 {insight.expertScore}/100
                         </span>
                         <span style={{
                           padding: '4px 12px',
@@ -377,7 +457,7 @@ export default function CallToAction() {
 
                   <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
                     gap: '16px',
                     padding: '16px',
                     background: '#f8fafc',
@@ -402,6 +482,34 @@ export default function CallToAction() {
                       <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>
                         {insight.impact}
                       </p>
+                    </div>
+
+                    <div>
+                      <div style={{ fontSize: '12px', fontWeight: '600', color: '#475569', marginBottom: '8px' }}>
+                        🎯 Expert Choice Breakdown
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#64748b', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Sentiment:</span> 
+                          <strong style={{ color: '#9333ea' }}>{insight.scoreBreakdown.sentiment}/100</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Urgency:</span> 
+                          <strong style={{ color: '#9333ea' }}>{insight.scoreBreakdown.urgency}/100</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Engagement:</span> 
+                          <strong style={{ color: '#9333ea' }}>{insight.scoreBreakdown.engagement}/100</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Recency:</span> 
+                          <strong style={{ color: '#9333ea' }}>{insight.scoreBreakdown.recency}/100</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Impact:</span> 
+                          <strong style={{ color: '#9333ea' }}>{insight.scoreBreakdown.impact}/100</strong>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
